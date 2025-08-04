@@ -1,39 +1,39 @@
-// script.js
+// Acessibilidade: toggle menu
+const botaoAcessibilidade = document.getElementById('botao-acessibilidade');
+const opcoesAcessibilidade = document.getElementById('opcoes-acessibilidade');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btnAumentar = document.getElementById('aumentar-fonte');
-  const btnDiminuir = document.getElementById('diminuir-fonte');
-  const btnContraste = document.getElementById('alterna-contraste');
-  const btnMenu = document.getElementById('botao-acessibilidade');
-  const opcoes = document.getElementById('opcoes-acessibilidade');
-  const body = document.body;
+botaoAcessibilidade.addEventListener('click', () => {
+  const expanded = botaoAcessibilidade.getAttribute('aria-expanded') === 'true';
+  botaoAcessibilidade.setAttribute('aria-expanded', !expanded);
+  if (opcoesAcessibilidade.hasAttribute('hidden')) {
+    opcoesAcessibilidade.removeAttribute('hidden');
+  } else {
+    opcoesAcessibilidade.setAttribute('hidden', '');
+  }
+});
 
-  // Controle do menu acessibilidade (abrir/fechar)
-  btnMenu.addEventListener('click', () => {
-    const expanded = btnMenu.getAttribute('aria-expanded') === 'true';
-    btnMenu.setAttribute('aria-expanded', String(!expanded));
-    opcoes.classList.toggle('apresenta-lista');
-    opcoes.setAttribute('aria-hidden', String(expanded));
-  });
+// Fonte
+const aumentarFonte = document.getElementById('aumentar-fonte');
+const diminuirFonte = document.getElementById('diminuir-fonte');
+const body = document.body;
+let fontSize = parseFloat(getComputedStyle(body).fontSize);
 
-  // Tamanho da fonte base
-  let fontSize = 16; // padrão 16px
+aumentarFonte.addEventListener('click', () => {
+  if (fontSize < 22) {
+    fontSize += 1;
+    body.style.fontSize = fontSize + 'px';
+  }
+});
 
-  btnAumentar.addEventListener('click', () => {
-    if (fontSize < 24) {
-      fontSize += 2;
-      document.documentElement.style.fontSize = fontSize + 'px';
-    }
-  });
+diminuirFonte.addEventListener('click', () => {
+  if (fontSize > 12) {
+    fontSize -= 1;
+    body.style.fontSize = fontSize + 'px';
+  }
+});
 
-  btnDiminuir.addEventListener('click', () => {
-    if (fontSize > 12) {
-      fontSize -= 2;
-      document.documentElement.style.fontSize = fontSize + 'px';
-    }
-  });
-
-  btnContraste.addEventListener('click', () => {
-    body.classList.toggle('alto-contraste');
-  });
+// Contraste
+const alternaContraste = document.getElementById('alterna-contraste');
+alternaContraste.addEventListener('click', () => {
+  body.classList.toggle('alto-contraste');
 });
