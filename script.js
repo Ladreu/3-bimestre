@@ -1,38 +1,39 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const botaoDeAcessibilidade = document.getElementById('botao-acessibilidade');
-    const opcoesDeAcessibilidade = document.getElementById('opcoes-acessibilidade');
+// script.js
 
-    botaoDeAcessibilidade.addEventListener('click', function () {
-        botaoDeAcessibilidade.classList.toggle('rotacao-botao');
-        opcoesDeAcessibilidade.classList.toggle('apresenta-lista');
+document.addEventListener('DOMContentLoaded', () => {
+  const btnAumentar = document.getElementById('aumentar-fonte');
+  const btnDiminuir = document.getElementById('diminuir-fonte');
+  const btnContraste = document.getElementById('alterna-contraste');
+  const btnMenu = document.getElementById('botao-acessibilidade');
+  const opcoes = document.getElementById('opcoes-acessibilidade');
+  const body = document.body;
 
-        const botaoSelecionado = botaoDeAcessibilidade.getAttribute('aria-expanded') === 'true';
-        botaoDeAcessibilidade.setAttribute('aria-expanded', !botaoSelecionado);
-    });
+  // Controle do menu acessibilidade (abrir/fechar)
+  btnMenu.addEventListener('click', () => {
+    const expanded = btnMenu.getAttribute('aria-expanded') === 'true';
+    btnMenu.setAttribute('aria-expanded', String(!expanded));
+    opcoes.classList.toggle('apresenta-lista');
+    opcoes.setAttribute('aria-hidden', String(expanded));
+  });
 
-    const aumentaFonteBotao = document.getElementById('aumentar-fonte');
-    const diminuiFonteBotao = document.getElementById('diminuir-fonte');
-    const alternaContraste = document.getElementById('alterna-contraste');
+  // Tamanho da fonte base
+  let fontSize = 16; // padrão 16px
 
-    let tamanhoAtualFonte = 1;
+  btnAumentar.addEventListener('click', () => {
+    if (fontSize < 24) {
+      fontSize += 2;
+      document.documentElement.style.fontSize = fontSize + 'px';
+    }
+  });
 
-    aumentaFonteBotao.addEventListener('click', function () {
-        tamanhoAtualFonte += 0.1;
-        document.body.style.fontSize = `${tamanhoAtualFonte}rem`;
-    });
+  btnDiminuir.addEventListener('click', () => {
+    if (fontSize > 12) {
+      fontSize -= 2;
+      document.documentElement.style.fontSize = fontSize + 'px';
+    }
+  });
 
-    diminuiFonteBotao.addEventListener('click', function () {
-        tamanhoAtualFonte -= 0.1;
-        document.body.style.fontSize = `${tamanhoAtualFonte}rem`;
-    });
-
-    alternaContraste.addEventListener('click', function () {
-        document.body.classList.toggle('alto-contraste');
-    });
+  btnContraste.addEventListener('click', () => {
+    body.classList.toggle('alto-contraste');
+  });
 });
-
-// Animações de revelação
-ScrollReveal().reveal('#inicio', { delay: 500 });
-ScrollReveal().reveal('#suplementacao', { delay: 500 }); // ID atualizado aqui
-ScrollReveal().reveal('#galeria', { delay: 500 });
-ScrollReveal().reveal('#contato', { delay: 500 });
